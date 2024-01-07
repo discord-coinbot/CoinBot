@@ -24,3 +24,5 @@ urllib3==2.0.7
 webserver==0.10.3
 werkzeug==3.0.1
 yarl==1.9.2
+bson==0.5.10
+pymongo==4.6.1
