@@ -6,6 +6,8 @@ from random import sample
 from typing import Dict
 import topgg
 from webserver import keep_alive
+from pymongo.mongo_client import MongoClient
+from bson.objectid import ObjectId
 # from database import *
 # db=database.db
 # with open("database.py", "r", encoding="windows-1252") as file:
@@ -35,7 +37,14 @@ for filename in os.listdir("commands"):
     print("\033[31m\033[1m"+filename,"\033[0mfailed to initialise.")
     print(e)
 
-db=db
+uri = "mongodb+srv://CoinBot:coinbot123@coinbot.nqsluqc.mongodb.net/CoinBot?retryWrites=true&w=majority"
+
+mongo_client = MongoClient(uri)
+data_link = mongo_client.CoinBot
+mongo_link = data_link.Old
+
+load = mongo_link.find_one({"_id": ObjectId("659ad14f86f746aa5da04320")})
+db = dict(load)
 
 async def embedify(name, description=None, color=None):
   if "**" not in name:
