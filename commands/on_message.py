@@ -39,8 +39,8 @@ async def on_message(message):
         num = int(message.content)
         await message.reply(f"{num+1}")
   await bot.process_commands(message)
-  async with aiofiles.open("database.py", "w") as db_file:
-    await db_file.write("db = " + repr(db))
+  if ewds.valid:
+    update = mongo_link.update_one({"_id": ObjectId("659ad14f86f746aa5da04320")}, {"$set": db})
   if "inv" + str(message.author.id) in db:
     for i, v in db["inv" + str(message.author.id)].items():
       if v == 0:
