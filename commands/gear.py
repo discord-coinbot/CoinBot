@@ -59,7 +59,10 @@ async def gear(ctx, type=None, person=None):
       return await ctx.reply(embed=await embedify(f"Not a valid gear {type} item", ""))
     if person not in db["gear"+user]["items"]:
       return ctx.reply(embed=await embedify(f"You don't have (a) {person}",""))
-    db["gear" + user][type] += f" , {person}"
+    if db["gear" + user][type] = "Nothing Equipped":
+      db["gear" + user][type] = person
+    else:
+      db["gear" + user][type] += f" , {person}"
     await ctx.reply(embed=await embedify(f"Equipped a {person}", ""))
   elif "buy" in type.lower():
     if person.lower() in gearitems.keys():
