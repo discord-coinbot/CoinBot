@@ -38,16 +38,12 @@ async def gear(ctx, type=None, person=None):
     embed.add_field(name="Defence", value=str(db["gear" + user]["Defence"]))
     await ctx.reply(embed=embed)
   elif "unequip" in type.lower():
-    await ctx.send("UNEUWIQPPF")
-    print(0)
     if person.lower() == "attack":
-      print(1)
       db["gear"+user]["Attack"] = "Nothing Equipped"
-      print(2)
     elif person.lower() == "defence":
       db["gear"+user]["Defence"] = "Nothing Equipped"
+    await ctx.send("Gear unequipped")
   elif "equip" in type.lower():
-    print("equip")
     if "defence" in type.lower():
       type = "Defence"
       gearlist = ["lock", "chains","uno_reverse","vault","guard_dog","alarm"]
@@ -56,19 +52,14 @@ async def gear(ctx, type=None, person=None):
       gearlist = ["pocket", "bag", "lock_pick", "bolts","jet","uno_skip"]
     else:
       return await ctx.reply(embed=await embedify("That is not a valid type of gear. There is attack and defence.",""))
-    print(1)
     if "," in db["gear"+user][type]:
       return await ctx.reply(embed=await embedify("You already have 2 items equipped. Unequip them to add new ones. (!gear unequip attack/defence)",""))
     person = str(person.lower())
-    print(2)
     if person not in gearlist:
       return await ctx.reply(embed=await embedify(f"Not a valid gear {type} item", ""))
-    print(2.5)
     if person not in db["gear"+user]["items"]:
       return ctx.reply(embed=await embedify(f"You don't have (a) {person}",""))
-    print(3)
-    db["gear" + user][type] += " , ",person
-    print(4)
+    db["gear" + user][type] += f" , {person}"
     await ctx.reply(embed=await embedify(f"Equipped a {person}", ""))
   elif "buy" in type.lower():
     if person.lower() in gearitems.keys():
