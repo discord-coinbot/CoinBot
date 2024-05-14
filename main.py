@@ -16,6 +16,7 @@ exec(open('database.py').read())
 # from database import Database
 # db=Database.db
 
+os.environ['secret_token'] = "MTEyMjUwNDMxOTI4NDAzNTU5NA.GXvpkk.qGC8zbGhz0oH7BaVIgWi-Q3Wj8gaOmPULUylJQ"
 secret_token = os.environ['secret_token']
 TOKEN = secret_token
 
