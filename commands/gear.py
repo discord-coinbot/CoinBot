@@ -57,8 +57,8 @@ async def gear(ctx, type=None, person=None):
     else:
       return await ctx.reply(embed=await embedify("That is not a valid type of gear. There is attack and defence.",""))
     print(1)
-    if db["gear"+user][type] != "Nothing Equipped":
-      return await ctx.reply(embed=await embedify("You still have something equipped. Unequip that to equip a new item",""))
+    if "," in db["gear"+user][type]:
+      return await ctx.reply(embed=await embedify("You already have 2 items equipped. Unequip them to add new ones. (!gear unequip attack/defence)",""))
     person = str(person.lower())
     print(2)
     if person not in gearlist:
@@ -67,7 +67,7 @@ async def gear(ctx, type=None, person=None):
     if person not in db["gear"+user]["items"]:
       return ctx.reply(embed=await embedify(f"You don't have (a) {person}",""))
     print(3)
-    db["gear" + user][type] = person
+    db["gear" + user][type] += " , ",person
     print(4)
     await ctx.reply(embed=await embedify(f"Equipped a {person}", ""))
   elif "buy" in type.lower():
