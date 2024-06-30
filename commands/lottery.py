@@ -3,15 +3,15 @@ async def lottery_task():
     if "EUROS_PRED" in db:
       for i, v in db["EUROS_PRED"].items():
         if v["StartTime"] - 10800 < time.time() and not v["PredStart"]:
-          guild = bot.get_guild(1091406103335669760)
-          channel = bot.get_channel(1124024875883970581)
+          guild = bot.get_guild(892064294567575612)
+          channel = bot.get_channel(1248674701601931446)
           await channel.set_permissions(guild.default_role, send_messages=True)
           await channel.send(f'<@&1251983972854927452> {v["Game"]}')
           v["PredStart"] = True
           
         elif v["StartTime"] < time.time():
-          guild = bot.get_guild(1091406103335669760)
-          channel = bot.get_channel(1124024875883970581)
+          guild = bot.get_guild(892064294567575612)
+          channel = bot.get_channel(1248674701601931446)
           await channel.set_permissions(guild.default_role, send_messages=False)
           await channel.send(f'Locked!')
           del db["EUROS_PRED"][i]
