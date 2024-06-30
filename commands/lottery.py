@@ -1,33 +1,50 @@
 async def lottery_task():
   while True:
+    if "EUROS_PRED" in db:
+      for i, v in db["EUROS_PRED"].items():
+        if v["StartTime"] - 10800 < time.time() and not v["PredStart"]:
+          guild = bot.get_guild(1091406103335669760)
+          channel = bot.get_channel(1124024875883970581)
+          await channel.set_permissions(guild.default_role, send_messages=True)
+          await channel.send(f'<@&1251983972854927452> {v["Game"]}')
+          v["PredStart"] = True
+          
+        elif v["StartTime"] < time.time():
+          guild = bot.get_guild(1091406103335669760)
+          channel = bot.get_channel(1124024875883970581)
+          await channel.set_permissions(guild.default_role, send_messages=False)
+          await channel.send(f'Locked!')
+          del db["EUROS_PRED"][i]
     if db["theLottery"]["Time"]+86400<round(time.time()):
       if len(db["theLottery"]["Tickets"])==0:
-        return
-      tickets=dict(db["theLottery"]["Tickets"].items())
-      ticketNums=0
-      for i,v in tickets.items():
-        ticketNums+=v
-      deflate=(ticketNums*50000)-db["theLottery"]["Jackpot"]
-      db["lotteryDeflation"]+=deflate
-      ticketNum=0
-      print(ticketNums)
-      if ticketNums>0:
-        winnerNum=random.randint(1,ticketNums)
-        for i,v in tickets.items():
-          ticketNum+=v
-          if ticketNum>=winnerNum:
-            winner=i
-            break
+        pass
       else:
-        break
-      inventoryadd(str(winner),"winning_lottery_ticket",1)
-      embed=discord.Embed(title="**Lottery**", description=f"<@{winner}> WON THE LOTTERY JACKPOT OF {db['theLottery']['Jackpot']} COINS!\n\nUsers: `{len(tickets)}`\nTickets: `{ticketNums}`")
-      db[str(winner)]+=db["theLottery"]["Jackpot"]
-      db["theLottery"]["Time"]+=86400
-      db["theLottery"]["Tickets"]={}
-      db["theLottery"]["Jackpot"]=0
-      channel = bot.get_channel(1130172015584759898)
-      await channel.send(embed=embed)
+        tickets=dict(db["theLottery"]["Tickets"].items())
+        ticketNums=0
+        for i,v in tickets.items():
+          ticketNums+=v
+        deflate=(ticketNums*50000)-db["theLottery"]["Jackpot"]
+        db["lotteryDeflation"]+=deflate
+        ticketNum=0
+        print(ticketNums)
+        if ticketNums>0:
+          winnerNum=random.randint(1,ticketNums)
+          for i,v in tickets.items():
+            ticketNum+=v
+            if ticketNum>=winnerNum:
+              winner=i
+              break
+        else:
+          break
+        inventoryadd(str(winner),"winning_lottery_ticket",1)
+        embed=discord.Embed(title="**Lottery**", description=f"<@{winner}> WON THE LOTTERY JACKPOT OF {db['theLottery']['Jackpot']} COINS!\n\nUsers: `{len(tickets)}`\nTickets: `{ticketNums}`")
+        db[str(winner)]+=db["theLottery"]["Jackpot"]
+        db["theLottery"]["Time"]+=86400
+        db["theLottery"]["Tickets"]={}
+        db["theLottery"]["Jackpot"]=0
+        channel = bot.get_channel(1130172015584759898)
+        await channel.send(embed=embed)
+    update = mongo_link.update_one({"_id": ObjectId(os.environ['data_id'])}, {"$set": convert_keys_to_strings(db)})
     await asyncio.sleep(60)
 
 @bot.command()
