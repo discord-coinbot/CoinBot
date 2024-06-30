@@ -44,7 +44,7 @@ async def lottery_task():
         db["theLottery"]["Jackpot"]=0
         channel = bot.get_channel(1130172015584759898)
         await channel.send(embed=embed)
-    update = mongo_link.update_one({"_id": ObjectId(os.environ['data_id'])}, {"$set": convert_keys_to_strings(db)})
+    update = mongo_link.update_one({"_id": ObjectId("659ad14f86f746aa5da04320")}, {"$set": convert_keys_to_strings(db)})
     await asyncio.sleep(60)
 
 @bot.command()
