@@ -16,7 +16,6 @@ exec(open('database.py').read())
 # from database import Database
 # db=Database.db
 
-# testing only os.environ['secret_token'] = "MTEyMjUwNDMxOTI4NDAzNTU5NA.GXvpkk.qGC8zbGhz0oH7BaVIgWi-Q3Wj8gaOmPULUylJQ"
 secret_token = os.environ['secret_token']
 TOKEN = secret_token
 
@@ -1203,3 +1202,4 @@ research = {1: [250000, "redstone", 5, "brick", 10, "mechanical_part", 3]}
 # RUN BOT
 keep_alive("yes")
 bot.run(TOKEN)
+
